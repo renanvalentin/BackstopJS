@@ -174,19 +174,29 @@ function capturePageSelectors(url,scenarios,viewports,bitmaps_reference,bitmaps_
 		        }
 
 				// TRIGGER CLICKS
-				if ( scenario.hasOwnProperty("trigger") && scenario.trigger.hasOwnProperty(vp.name)) {
-					scenario.trigger[vp.name].forEach(function(trigger, i) {
-						casper.waitForSelector(trigger.selector, function then() {
-							this.click(trigger.selector);
-						});
+				if (scenario.hasOwnProperty("trigger") && scenario.trigger.hasOwnProperty(vp.name)) {
+					scenario.trigger[vp.name].forEach(function (trigger, i) {
+						var sequence = trigger.selector.split(';');
 
-						casper.waitUntilVisible(trigger.target, function() {
-							console.log('Element visible!');
-							casper.wait(trigger.delay||1);
-						});
+						sequence.forEach(function (actions) {
+							var action = actions.split('->').reduce(function (a, b) {
+								return {trigger: a, target: b};
+							});
 
-						//casper.wait(scenario.delay||1);
+							runSequence(action.trigger, action.target, trigger.delay);
+						});
 					});
+
+					function runSequence(trigger, target, delay) {
+						casper.waitForSelector(trigger, function then() {
+							this.click(trigger);
+						});
+
+						casper.waitUntilVisible(target, function () {
+							console.log('Element visible!');
+							casper.wait(delay || 1);
+						});
+					}
 				}
 			});
 
