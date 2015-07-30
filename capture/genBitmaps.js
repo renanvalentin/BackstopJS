@@ -188,12 +188,14 @@ function capturePageSelectors(url,scenarios,viewports,bitmaps_reference,bitmaps_
 						//casper.wait(scenario.delay||1);
 					});
 				}
+			});
 
+			this.then(function() {
 				//CREATE SCREEN SHOTS AND TEST COMPARE CONFIGURATION (CONFIG FILE WILL BE SAVED WHEN THIS PROCESS RETURNS)
-		        // If no selectors are provided then set the default 'body'
-		        if ( !scenario.hasOwnProperty('selectors') ) {
-		          scenario.selectors = [ 'body' ];
-		        }
+				// If no selectors are provided then set the default 'body'
+				if ( !scenario.hasOwnProperty('selectors') ) {
+					scenario.selectors = [ 'body' ];
+				}
 				scenario.selectors.forEach(function(o,i,a){
 					var cleanedSelectorName = o.replace(/[^a-zA-Z\d]/,'');//remove anything that's not a letter or a number
 					//var cleanedUrl = scenario.url.replace(/[^a-zA-Z\d]/,'');//remove anything that's not a letter or a number
@@ -211,14 +213,13 @@ function capturePageSelectors(url,scenarios,viewports,bitmaps_reference,bitmaps_
 							selector:o,
 							fileName:fileName,
 							label:scenario.label,
-              				misMatchThreshold: scenario.misMatchThreshold
+							misMatchThreshold: scenario.misMatchThreshold
 						})
 
 					casper.captureSelector(filePath, o);
 					//casper.echo('remote capture to > '+filePath,'info');
 
 				});//end topLevelModules.forEach
-
 			});
 
 		});//end casper.each viewports
