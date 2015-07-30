@@ -3,6 +3,8 @@
 #BackstopJS
 **Catch CSS curve balls.**
 
+#For ReactJS Users!!
+There where two problems with the current latest casperjs(1.1.0-beta3), phantomjs(v1.9.17) and reactjs. (http://blog.mraiur.com/2015/07/casperjs-reactjs/)
 
 BackstopJS automates CSS regression testing of your responsive web UI by comparing DOM screenshots at various viewport sizes.
 
@@ -265,13 +267,13 @@ From `./node_modules/backstopjs` ...
 
 The test comparison report was written in Angular.js and requires a running HTTP server instance.  This instance is auto-started after a test is run.  The server is also auto-stopped after 15 minutes so you don't have to go worrying about node processes running all over the place.
 
-You can manually start the server optionally passing your own timeout parameter (in minutes). Passing 0 will disable the timeout feature and run the server until you manually stop it. 
+You can manually start the server optionally passing your own timeout parameter (in minutes). Passing 0 will disable the timeout feature and run the server until you manually stop it.
 
 From `./node_modules/backstopjs` ...
 
     $ gulp start -t 0
-    
-    
+
+
 
 To manually stop the server, from `./node_modules/backstopjs` ...
 
