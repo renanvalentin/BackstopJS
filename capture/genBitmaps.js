@@ -62,7 +62,6 @@ function capturePageSelectors(url,scenarios,viewports,bitmaps_reference,bitmaps_
 	});
 
 	casper.on( 'page.initialized', function(){
-		console.log('AE!!');
 		this.evaluate(function(){
 			var isFunction = function(o) {
 				return typeof o == 'function';
@@ -173,6 +172,22 @@ function capturePageSelectors(url,scenarios,viewports,bitmaps_reference,bitmaps_
 		  					},o);
 		  				});
 		        }
+
+				// TRIGGER CLICKS
+				if ( scenario.hasOwnProperty("trigger") && scenario.trigger.hasOwnProperty(vp.name)) {
+					scenario.trigger[vp.name].forEach(function(trigger, i) {
+						casper.waitForSelector(trigger.selector, function then() {
+							this.click(trigger.selector);
+						});
+
+						casper.waitUntilVisible(trigger.target, function() {
+							console.log('Element visible!');
+							casper.wait(trigger.delay||1);
+						});
+
+						//casper.wait(scenario.delay||1);
+					});
+				}
 
 				//CREATE SCREEN SHOTS AND TEST COMPARE CONFIGURATION (CONFIG FILE WILL BE SAVED WHEN THIS PROCESS RETURNS)
 		        // If no selectors are provided then set the default 'body'
